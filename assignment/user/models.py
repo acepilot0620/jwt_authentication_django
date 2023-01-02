@@ -7,11 +7,12 @@ from .user_manager import UserManager
 
 class User(AbstractUser, TimedModelMixin):
     username = None
+    first_name = None
+    last_name = None
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
-    name = models.CharField(max_length=64, default='', null=True, blank=True, verbose_name='이름')
 
     class Meta:
         verbose_name = "사용자 정보"
