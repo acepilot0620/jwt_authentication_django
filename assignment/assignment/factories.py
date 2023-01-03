@@ -16,10 +16,10 @@ class UserFactory(factory.django.DjangoModelFactory):
 class LedgerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Ledger
-        django_get_or_create = ('user','earning','spending','place','memo')
+        django_get_or_create = ('user','amount','place','memo', 'ledger_type')
     user = UserFactory()
-    earning = fake.pyint(min_value=1000, max_value=10000)
-    spending = 0
-    place = fake.sentence()
+    amount = factory.LazyFunction(fake.pyint) 
+    place = factory.LazyFunction(fake.sentence)
     memo = '비고'
+    ledger_type = 'EXP'
     
