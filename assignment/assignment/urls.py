@@ -13,4 +13,5 @@ urlpatterns = [
 
     # 하위 앱
     path('user/', include('user.urls')),
+    path('ledger/', include('ledger.urls')),
 ]

@@ -16,7 +16,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 class LedgerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Ledger
-        django_get_or_create = ('user','earning','sending','place','memo')
+        django_get_or_create = ('user','earning','spending','place','memo')
     user = UserFactory()
     earning = fake.pyint(min_value=1000, max_value=10000)
     spending = 0
