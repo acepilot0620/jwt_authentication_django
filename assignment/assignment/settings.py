@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     
     # Local
     'user',
+    'ledger',
     
     # django-rest-auth
     'rest_framework',

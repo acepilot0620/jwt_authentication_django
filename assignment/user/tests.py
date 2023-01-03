@@ -1,9 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework.views import status
-from django.shortcuts import resolve_url
-from django.urls import reverse
 
-from .factories import UserFactory
+from assignment.factories import UserFactory
 
 class UserSignUpTestCase(APITestCase):
     def setUp(self):
