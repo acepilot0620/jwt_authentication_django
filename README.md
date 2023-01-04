@@ -135,14 +135,26 @@ Postman API document url : https://documenter.getpostman.com/view/14871537/2s8Z7
   python manage.py migrate
   ```
   
-  4. 개발용 서버를 실행합니다.
+  4. App별 테스트 코드를 실행합니다.
+  <br>
+  
+  ```
+  python manage.py test user
+  python manage.py test ledger
+  ```
+  
+  5. 개발용 서버를 실행합니다.
   <br>
   
   ```
   python manage.py runserver
   ```
 
+## 코드에 대한 생각
 
+  * 정확한 기획 의도를 이해하기 전에는 자의적으로 판단하기보다 기능 Description에 근거하여 개발하였습니다.
+  * 만약 실제로 같이 일하는 상황이였다면 기획 의도를 확실하게 파악한 후 적절하게 확장성있는 개발을 했을 것입니다.
+  * 테스트 코드(각 앱별 test.py)에 각 요구사항들을 주석으로 표기해 놓았습니다.
 
  
 
