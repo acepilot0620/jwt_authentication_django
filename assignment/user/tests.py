@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework.views import status
 
-from assignment.factories import UserFactory
+from core.factories import UserFactory
 
 class UserSignUpTestCase(APITestCase):
     def setUp(self):

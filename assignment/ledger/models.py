@@ -1,8 +1,8 @@
 from django.db import models
 from user.models import User
-from assignment.mixin import TimedModelMixin
+from core.models import TimeStampModel
 
-class Ledger(TimedModelMixin, models.Model):
+class Ledger(TimeStampModel, models.Model):
     LEDGER_TYPE =(
         ('EXP','지출'),
         ('INC','수입')

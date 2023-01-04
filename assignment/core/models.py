@@ -1,9 +1,8 @@
-from datetime import datetime, timezone
-
 from django.db import models
 
+from datetime import datetime, timezone
 
-class TimedModelMixin(models.Model):
+class TimeStampModel(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now_add=True, null=True)
 

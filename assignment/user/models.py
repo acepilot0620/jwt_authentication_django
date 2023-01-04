@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-from assignment.mixin import TimedModelMixin
+from core.models import TimeStampModel
 from .user_manager import UserManager
 
-class User(AbstractUser, TimedModelMixin):
+class User(AbstractUser, TimeStampModel):
     username = None
     first_name = None
     last_name = None
