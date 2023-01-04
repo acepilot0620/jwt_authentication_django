@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-uwma%f0vd8xnxw2e=s8d^+i7)8t$qm^edf+b5_&9v-i@i$wl$t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -86,6 +86,7 @@ DATABASES = {
         'PASSWORD': 'chlwjdgh97!',
         'HOST': 'localhost',
         'PORT': '3306',
+        'TIME_ZONE': "Asia/Seoul"
     }
 }
 
@@ -104,6 +105,8 @@ REST_FRAMEWORK = {
         # 기본 인증 방법을 JWT 인증으로 변경
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+	'PAGE_SIZE': 15,
 }
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -152,7 +155,7 @@ TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

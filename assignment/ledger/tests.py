@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from rest_framework.views import status
+from django.urls import reverse
 
 from core.factories import UserFactory, LedgerFactory
 from .models import Ledger
@@ -13,7 +14,7 @@ class LedgerTestCase(APITestCase):
             "email": self.user.email,
             "password": "1q2w3e4r!",
         }
-        login_response = self.client.post('/login', data=login_data, format='json')
+        login_response = self.client.post('/login/', data=login_data, format='json')
         self.access_token = login_response.data['access_token']
     
     # 가계부에 오늘 사용한 돈의 금액과 관련된 메모를 남길 수 있습니다. 
@@ -74,13 +75,23 @@ class LedgerTestCase(APITestCase):
         self.assertEqual(ledger.memo, copy_result.memo)
     
     # # 가계부의 특정 세부 내역을 공유할 수 있게 단축 URL을 만들 수 있습니다.
-    # def test_ledger_detail_share(self):
-    #     ledger = LedgerFactory()
-    #     url = self.url + f'/share/{ledger.id}'
-    #     response = self.client.post(url, HTTP_AUTHORIZATION=f'Bearer {self.access_token}', format='json')
-    #     sharing_url = response.data['sharing_url']
-    #     sharing_response = self.client.get(sharing_url, format='json')
-    #     print(sharing_response.data['ledger'])
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_ledger_detail_share(self):
+        ledger = LedgerFactory(user=self.user)
+        # 단축된 공유 URL 생성
+        generate_url = self.url + f'generate_url/{ledger.id}/'
+        response = self.client.get(generate_url, HTTP_AUTHORIZATION=f'Bearer {self.access_token}', format='json')
+        sharing_url = response.data['sharing_url']
+        # 타 사용자 로그인
+        new_user = UserFactory.create()
+        login_data = {
+            "email": new_user.email,
+            "password": "1q2w3e4r!",
+        }
+        login_response = self.client.post('/login/', data=login_data, format='json')
+        access_token = login_response.data['access_token']
+        # 단축된 공유 URL로 가계부 특정 세부내역 확인
+        redirection = self.client.get(sharing_url,HTTP_AUTHORIZATION=f'Bearer {access_token}', format='json')
+        reverse(redirection)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 

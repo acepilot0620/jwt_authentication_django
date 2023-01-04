@@ -40,5 +40,5 @@ urlpatterns =[
     path('ledger/duplicate/<int:pk>/',ledger_duplicate),
     path('ledger/generate_url/<int:pk>/',ledger_generate_url),
     path('ledger/share/<int:pk>/', ledger_share),
-    path('<str:url_hash>',ledger_redirect_hash),
+    path('<str:url_hash>',ledger_redirect_hash, name="redirect_hash"),
 ]

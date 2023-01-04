@@ -12,6 +12,7 @@ from django.shortcuts import redirect
 from . import utils
 from .models import Ledger
 from .serializers import LedgerSerializer, LedgerReadOnlySerializer, LedgerEditSerializer
+from core.pagination import LedgerPageNumberPagination
 
 class LedgerViewSet(viewsets.ModelViewSet):
     queryset = Ledger.objects.all()
@@ -19,6 +20,7 @@ class LedgerViewSet(viewsets.ModelViewSet):
     permission_classes_per_method = {
         "share" : [AllowAny],
     }
+    pagination_class = LedgerPageNumberPagination
     
     def get_queryset(self):
         if self.action == 'share':
@@ -71,19 +73,21 @@ class LedgerViewSet(viewsets.ModelViewSet):
         target_ledger = self.get_object()
         original_link = settings.SITE_URL + f'/ledger/share/{target_ledger.id}/'
         hash = utils.url_shortener(original_link)
-        sharing_link = settings.SITE_URL + f'/{hash}'
-        data = {'sharing_link' : sharing_link}
+        sharing_url = settings.SITE_URL + f'/{hash}'
+        data = {'sharing_url' : sharing_url}
         return Response(data=data)
 
     @action(methods=['GET'], detail=True)
     def share(self, request, *args, **kwargs):
         target_ledger = self.get_object()
         data = {
-            "created" : target_ledger.created,
-            "amount" : target_ledger.amount,
-            "place" : target_ledger.place,
-            "memo" : target_ledger.memo,
-            "ledger_type" : target_ledger.ledger_type,
+            "ledger": {
+                "created" : target_ledger.created,
+                "amount" : target_ledger.amount,
+                "place" : target_ledger.place,
+                "memo" : target_ledger.memo,
+                "ledger_type" : target_ledger.ledger_type,
+                }
         }
         return Response(data=data)
 

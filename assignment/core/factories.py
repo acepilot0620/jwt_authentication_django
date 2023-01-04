@@ -10,7 +10,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    email = fake.email()
+    email = factory.LazyFunction(fake.email)
     password = make_password("1q2w3e4r!")
     
 class LedgerFactory(factory.django.DjangoModelFactory):
