@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework.views import status
 from django.urls import reverse
 
-from core.factories import UserFactory, LedgerFactory
+from .factories import UserFactory, LedgerFactory
 from .models import Ledger
 
 class LedgerTestCase(APITestCase):

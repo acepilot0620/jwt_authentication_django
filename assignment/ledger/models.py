@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import User
-from core.models import TimeStampModel
+from common.models import TimeStampModel
 
 class Ledger(TimeStampModel, models.Model):
     LEDGER_TYPE =(

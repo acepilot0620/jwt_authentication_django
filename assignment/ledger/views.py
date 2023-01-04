@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from . import utils
 from .models import Ledger
 from .serializers import LedgerSerializer, LedgerReadOnlySerializer, LedgerEditSerializer
-from core.pagination import LedgerPageNumberPagination
+from common.pagination import LedgerPageNumberPagination
 
 class LedgerViewSet(viewsets.ModelViewSet):
     queryset = Ledger.objects.all()
