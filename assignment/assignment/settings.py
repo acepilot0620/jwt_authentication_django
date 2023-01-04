@@ -93,6 +93,7 @@ DATABASES = {
 AUTH_USER_MODEL = 'user.User'
 
 SITE_ID = 1
+SITE_URL = 'http://127.0.0.1:8000'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -151,7 +152,7 @@ TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

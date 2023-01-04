@@ -19,8 +19,26 @@ ledger_duplicate = LedgerViewSet.as_view({
     'post' : 'duplicate',
 })
 
+# 가계부 세부내역 공유
+ledger_share = LedgerViewSet.as_view({
+    'get' : 'share',
+})
+
+# 가계부 세부 내역 공유 url 생성
+ledger_generate_url = LedgerViewSet.as_view({
+    'get' : 'generate_url',
+})
+
+# 단축 URL 리다이렉트
+ledger_redirect_hash = LedgerViewSet.as_view({
+    'get' : 'redirect_hash',
+})
+
 urlpatterns =[
-    path('', ledger_list),
-    path('<int:pk>/', ledger_detail),
-    path('duplicate/<int:pk>/',ledger_duplicate),
+    path('ledger/', ledger_list),
+    path('ledger/<int:pk>/', ledger_detail),
+    path('ledger/duplicate/<int:pk>/',ledger_duplicate),
+    path('ledger/generate_url/<int:pk>/',ledger_generate_url),
+    path('ledger/share/<int:pk>/', ledger_share),
+    path('<str:url_hash>',ledger_redirect_hash),
 ]

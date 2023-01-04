@@ -3,16 +3,28 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import status
 from rest_framework.decorators import action
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import AllowAny,IsAuthenticatedOrReadOnly
+from django.conf import settings
+from django.shortcuts import redirect
 
+from . import utils
 from .models import Ledger
 from .serializers import LedgerSerializer, LedgerReadOnlySerializer, LedgerEditSerializer
 
 class LedgerViewSet(viewsets.ModelViewSet):
     queryset = Ledger.objects.all()
     serializer_class = LedgerSerializer
+    permission_classes_per_method = {
+        "share" : [AllowAny],
+    }
     
     def get_queryset(self):
-        queryset = self.queryset.filter(user = self.request.user)
+        if self.action == 'share':
+            queryset = self.queryset
+        else:
+            queryset = self.queryset.filter(user = self.request.user)
         return queryset
 
     def get_serializer_class(self):
@@ -54,7 +66,32 @@ class LedgerViewSet(viewsets.ModelViewSet):
         target_ledger.save()
         return Response(self.serializer_class(target_ledger).data)
     
-    # @action(methods=['GET'], detail=True)
-    # def share(self, request, *args, **kwargs):
-    #     url = ''
-    #     return Response(url)
+    @action(methods=['GET'], detail=True)
+    def generate_url(self, request, *args, **kwargs):
+        target_ledger = self.get_object()
+        original_link = settings.SITE_URL + f'/ledger/share/{target_ledger.id}/'
+        hash = utils.url_shortener(original_link)
+        sharing_link = settings.SITE_URL + f'/{hash}'
+        data = {'sharing_link' : sharing_link}
+        return Response(data=data)
+
+    @action(methods=['GET'], detail=True)
+    def share(self, request, *args, **kwargs):
+        target_ledger = self.get_object()
+        data = {
+            "created" : target_ledger.created,
+            "amount" : target_ledger.amount,
+            "place" : target_ledger.place,
+            "memo" : target_ledger.memo,
+            "ledger_type" : target_ledger.ledger_type,
+        }
+        return Response(data=data)
+
+    @action(methods=['GET'], detail=True)
+    def redirect_hash(self, request, url_hash):
+        original_url = utils.load_url(url_hash=url_hash).original_url
+        validity = utils.load_url(url_hash=url_hash).validity
+        if utils.validity_check(validity):
+            return redirect(original_url)
+        else:
+            return Response({"msg":"만료된 URL 입니다"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

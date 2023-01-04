@@ -12,6 +12,6 @@ urlpatterns = [
     path('signup/', RegisterView.as_view()),
 
     # 하위 앱
-    path('user/', include('user.urls')),
-    path('ledger/', include('ledger.urls')),
+    path('', include('user.urls')),
+    path('', include('ledger.urls')),
 ]

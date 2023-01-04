@@ -12,3 +12,8 @@ class Ledger(TimeStampModel, models.Model):
     place = models.CharField(max_length=100, verbose_name="사용처")
     memo = models.CharField(max_length=500, verbose_name="메모")
     ledger_type = models.CharField(max_length=3,choices=LEDGER_TYPE, verbose_name="지출or수입 여부")
+
+class Url_Mapping(TimeStampModel,models.Model):
+    original_url = models.CharField(max_length=256)
+    hash = models.CharField(max_length=10)
+    validity = models.DateTimeField()
