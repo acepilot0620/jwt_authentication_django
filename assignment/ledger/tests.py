@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework.views import status
 from django.urls import reverse
 
-from .factories import UserFactory, LedgerFactory
+from common.factories import UserFactory, LedgerFactory
 from .models import Ledger
 
 class LedgerTestCase(APITestCase):
@@ -74,24 +74,12 @@ class LedgerTestCase(APITestCase):
         self.assertEqual(ledger.place, copy_result.place)
         self.assertEqual(ledger.memo, copy_result.memo)
     
-    # # 가계부의 특정 세부 내역을 공유할 수 있게 단축 URL을 만들 수 있습니다.
+    # 가계부의 특정 세부 내역을 공유할 수 있게 단축 URL을 만들 수 있습니다.
     def test_ledger_detail_share(self):
         ledger = LedgerFactory(user=self.user)
         # 단축된 공유 URL 생성
         generate_url = self.url + f'generate_url/{ledger.id}/'
         response = self.client.get(generate_url, HTTP_AUTHORIZATION=f'Bearer {self.access_token}', format='json')
-        sharing_url = response.data['sharing_url']
-        # 타 사용자 로그인
-        new_user = UserFactory.create()
-        login_data = {
-            "email": new_user.email,
-            "password": "1q2w3e4r!",
-        }
-        login_response = self.client.post('/login/', data=login_data, format='json')
-        access_token = login_response.data['access_token']
-        # 단축된 공유 URL로 가계부 특정 세부내역 확인
-        redirection = self.client.get(sharing_url,HTTP_AUTHORIZATION=f'Bearer {access_token}', format='json')
-        reverse(redirection)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
+    # 공유 링크 테스트는 POSTMAN 도큐먼트()
