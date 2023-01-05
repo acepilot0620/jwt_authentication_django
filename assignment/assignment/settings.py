@@ -41,11 +41,7 @@ INSTALLED_APPS = [
     
     # django-allauth
     'allauth',
-    'allauth.account',
-
-    # swagger
-    'drf_yasg', 
-    
+    'allauth.account',   
 ]
 
 MIDDLEWARE = [
