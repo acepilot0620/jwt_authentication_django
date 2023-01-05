@@ -91,6 +91,7 @@
        - 가계부 공유:
         * 본인의 가계부 내역만 공유 할 수 있습니다.
         * 공유를 위한 단축된 URL을 통해서 특정 가계부 내역에 대한 정보를 공유할 수 있습니다.
+        * 공유 링크의 만료 시간은 30분입니다.
       ```
  
 > **Modeling**
@@ -109,7 +110,6 @@ Postman API document url : https://documenter.getpostman.com/view/14871537/2s8Z7
 
 > **Guides**
 - #### ⚙️ 프로젝트 설치방법
-  #### ```✔️ 로컬 개발 및 테스트용```
   
   1. 해당 프로젝트를 clone하고, 프로젝트 폴더로 이동합니다.
   <br>
@@ -135,20 +135,20 @@ Postman API document url : https://documenter.getpostman.com/view/14871537/2s8Z7
   python manage.py migrate
   ```
   
-  4. App별 테스트 코드를 실행합니다.
-  <br>
-  
-  ```
-  python manage.py test user
-  python manage.py test ledger
-  ```
-  
-  5. 개발용 서버를 실행합니다.
+  4. 개발용 서버를 실행합니다.
   <br>
   
   ```
   python manage.py runserver
   ```
+- #### ⚙️ API 테스트 방법
+  1. Django app 별 test 파일 활용
+  ```
+  python manage.py test user
+  python manage.py test ledger
+  ```
+  2. Postman 활용 ( 워크스페이스 링크 : https://www.postman.com/gold-capsule-784502/workspace/0234404f-dc75-40ed-a3f5-297d5328afca/collection/14871537-d2877f62-55f5-4850-be71-d26e788626e1?action=share&creator=14871537)
+    * 회원가입, 로그인 후 response에 있는 access token을 모든 api Bearer token값으로 넣고 테스트를 진행해 주세요
 
 ## 코드에 대한 생각
 
